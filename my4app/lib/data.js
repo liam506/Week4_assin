@@ -76,12 +76,29 @@ export async function getData(idRequested) {
     }
   );
 
+
+  // extract object value in filtered array if any
   // extract object value in filtered array if any
   let objReturned;
   if (objMatch.length > 0) {
     objReturned = objMatch[0];
+    //finding occupation of person 
+    const filePath2 =  path.join(dataDir, 'persons2.json');
+    //loading the json file 
+    const jsonString2 = fs.readFileSync(filePath2, 'utf8');
+    //converting the jsx string val 
+    const jsonObj2 = JSON.parse(jsonString2);
+    // find object value in array that has matching id
+    const objMatch2 = jsonObj2.filter(
+    function(obj) {
+      return obj.id.toString() === idRequested;
+    }
+  );
+  objReturned.occupation = objMatch2;
+
   } else {
     objReturned = {};
+
   }
 
   // return object value found
